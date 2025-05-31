@@ -60,7 +60,7 @@
     <div class="container">
         <main class="py-3">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="fw-bold">レシピ一覧</h1>
+                <h1 class="fw-bold">献立一覧</h1>
                 <a class="btn btn-primary align-self-center" href="https://forms.gle/jzmktk95ZGX3D5LM7"
                     target="_blank"><i class="bi bi-plus"></i>献立を追加</a>
             </div>
@@ -89,7 +89,7 @@
                                     <h5 class="card-title" data-nutrition="<?= r.nutrition ?>">
                                     </h5>
                                     <p class="card-text">
-                                        <a href="<?= r.detail ?>" target="_blank">
+                                        <a href="" target="_blank">
                                         </a>
                                     </p>
                                 </div>
@@ -107,7 +107,7 @@
                                     <h5 class="card-title" data-nutrition="<?= r.nutrition ?>">
                                     </h5>
                                     <p class="card-text">
-                                        <a href="<?= r.detail ?>" target="_blank">
+                                        <a href="" target="_blank">
                                         </a>
                                     </p>
                                 </div>
@@ -125,7 +125,7 @@
                                     <h5 class="card-title" data-nutrition="<?= r.nutrition ?>">
                                     </h5>
                                     <p class="card-text">
-                                        <a href="<?= r.detail ?>" target="_blank">
+                                        <a href="" target="_blank">
                                         </a>
                                     </p>
                                 </div>
@@ -144,6 +144,38 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous">
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            google.script.run.withSuccessHandler(renderRecipes).getRecipes();
+        });
+
+        function renderRecipes(recipes) {
+            window.recipes = recipes; // 既存のレシピ表示に使うためグローバルに
+
+            const main = document.getElementById("main");
+            const sub = document.getElementById("sub");
+            const soup = document.getElementById("soup");
+
+            // カードを作成する関数
+            const createCard = (r) => `
+                <div class="col mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title" data-nutrition="${r.nutrition}">${r.menu}</h5>
+                      <p class="card-text">
+                        ${r.detail?.match(/^https?:\/\//) ? `<a href="${r.detail}" target="_blank">${r.detail}</a>` : r.detail}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              `;
+
+            // 各カテゴリに挿入
+            main.innerHTML = recipes.filter(r => r.dish_category === "メイン").map(createCard).join("");
+            sub.innerHTML = recipes.filter(r => r.dish_category === "サブ").map(createCard).join("");
+            soup.innerHTML = recipes.filter(r => r.dish_category === "スープ").map(createCard).join("");
+        }
+    </script>      
 
 </body>
 
