@@ -8,62 +8,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <?!= include('config'); ?>
-    <style>
-        #dify-chatbot-bubble-button {
-            background-color: #1C64F2 !important;
-        }
-
-        #dify-chatbot-bubble-window {
-            width: 24rem !important;
-            height: 40rem !important;
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            column-gap: 10px;
-            font-weight: 700;
-        }
-
-        .card-title::before {
-            content: "";
-            width: 70px;
-            height: 50px;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        .card-title[data-nutrition="vegetable"]::before {
-            background-image: url("https://hiramekus.github.io/images/recipe/img-vegetable.svg");
-        }
-
-        .card-title[data-nutrition="fish"]::before {
-            background-image: url("https://hiramekus.github.io/images/recipe/img-fish.svg");
-        }
-
-        .card-title[data-nutrition="meat"]::before {
-            background-image: url("https://hiramekus.github.io/images/recipe/img-meat.svg");
-        }
-
-        .card-title[data-nutrition="egg"]::before {
-            background-image: url("https://hiramekus.github.io/images/recipe/img-egg.svg");
-        }
-
-        .card-title[data-nutrition="other"]::before {
-            background-image: url("https://hiramekus.github.io/images/recipe/img-other.svg");
-        }
-    </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Offcanvas navbar large">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">KONDATE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2"
+                aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar2"
+                aria-labelledby="offcanvasNavbar2Label">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbar2Label">MENU</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">献立一覧</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">平日の夕食</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="recipe-add.html">献立を追加</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <main class="py-3">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="fw-bold">献立一覧</h1>
-                <a class="btn btn-primary align-self-center" href="https://forms.gle/jzmktk95ZGX3D5LM7"
-                    target="_blank"><i class="bi bi-plus"></i>献立を追加</a>
-            </div>
+
+            <h1 class="fs-2 fw-bold mb-4">献立一覧</h1>
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -80,48 +62,19 @@
                 </li>
             </ul>
 
-            <div id="recipes"></div>
-
             <div class="tab-content mt-3">
                 <div class="tab-pane active" id="main" role="tabpanel" aria-labelledby="main-tab" tabindex="0">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
 
                 <div class="tab-pane" id="sub" role="tabpanel" aria-labelledby="sub-tab" tabindex="0">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                        <div class="col mb-3">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title" data-nutrition="<?= r.nutrition ?>">
-                                    </h5>
-                                    <p class="card-text">
-                                        <a href="" target="_blank">
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
 
                 <div class="tab-pane" id="soup" role="tabpanel" aria-labelledby="soup-tab" tabindex="0">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                        <div class="col mb-3">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title" data-nutrition="<?= r.nutrition ?>">
-                                    </h5>
-                                    <p class="card-text">
-                                        <a href="" target="_blank">
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
             </div>
@@ -129,7 +82,28 @@
 
         </main>
 
+        <!-- ローディング -->
+        <div id="loading" class="justify-content-center py-5" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <!-- /.spinner -->
+
     </div>
+    <!-- .container -->
+
+     <div class="text-end">
+        <div class="fixed-bottom p-3">
+            <a href="recipe-add.html" class="btn btn-primary">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-plus fs-3"></i>
+                    <span>献立を追加</span>
+                </div>
+            </a>
+        </div>
+     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous">
@@ -137,6 +111,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('#loading').css('display','flex');
             $.getJSON(
                 "https://script.google.com/macros/s/AKfycbz7pdsW5sFZDHvMFmyhZz9dGrjCmrHP67oeggeCotaEbiuKfCfDa17aYy_QgfBg27kgng/exec"
             )
@@ -144,19 +119,20 @@
                 const sections = { main: "", sub: "", soup: "" };
 
                 data.forEach(function (item) {
+                    console.log(item.レシピのURLかレシピを手入力してください);
 
                     let recipeContent;
-                    if (item.レシピ && item.レシピ.startsWith("http")) {
-                        recipeContent = `<a href="${item.レシピ}" target="_blank" rel="noopener noreferrer">レシピを見る</a>`;
+                    if (item.レシピのURLかレシピを手入力してください && item.レシピのURLかレシピを手入力してください.startsWith("http")) {
+                        recipeContent = `<a href="${item.レシピ}" target="_blank">レシピを見る</a>`;
                     } else {
-                        recipeContent = item.レシピ;
+                        recipeContent = item.レシピのURLかレシピを手入力してください;
                     }
                     const html = `
                         <div class="col mb-3">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h5 class="card-title" data-nutrition="${item.nutrition || ''}">
-                                        ${item.献立名}
+                                    <h5 class="card-title fw-bold">
+                                        ${item.献立名を入力してください}
                                     </h5>
                                     <p class="card-text">
                                         ${recipeContent}
@@ -166,11 +142,11 @@
                         </div>
                     `;
 
-                    if (item.献立カテゴリ === "メイン") {
+                    if (item.献立のカテゴリを選択してください === "メイン") {
                         sections.main += html;
-                    } else if (item.献立カテゴリ === "サブ") {
+                    } else if (item.献立のカテゴリを選択してください === "サブ") {
                         sections.sub += html;
-                    } else if (item.献立カテゴリ === "スープ") {
+                    } else if (item.献立のカテゴリを選択してください === "スープ") {
                         sections.soup += html;
                     }
                 });
@@ -178,15 +154,16 @@
                 $("#main .row").html(sections.main);
                 $("#sub .row").html(sections.sub);
                 $("#soup .row").html(sections.soup);
+            })
+            .fail(function () {
+                console.error("読み込みエラー");
+            })
+            .always(function () {
+                // 読み込み完了時にスピナーを非表示
+                $('#loading').hide();
             });
         });
     </script>
-    <script>
-        window.difyChatbotConfig = {
-            token: 'YrZCuBxE8IcwI3dR',
-        }
-    </script>
-    <script src="https://udify.app/embed.min.js" id="YrZCuBxE8IcwI3dR" defer></script>
 </body>
 
 </html>
