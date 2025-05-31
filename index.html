@@ -80,21 +80,11 @@
                 </li>
             </ul>
 
+            <div id="recipes"></div>
+
             <div class="tab-content mt-3">
                 <div class="tab-pane active" id="main" role="tabpanel" aria-labelledby="main-tab" tabindex="0">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                        <div class="col mb-3">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title" data-nutrition="<?= r.nutrition ?>">
-                                    </h5>
-                                    <p class="card-text">
-                                        <a href="" target="_blank">
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- /.tabpane -->
@@ -144,39 +134,59 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            google.script.run.withSuccessHandler(renderRecipes).getRecipes();
+        $(document).ready(function () {
+            $.getJSON(
+                "https://script.google.com/macros/s/AKfycbz7pdsW5sFZDHvMFmyhZz9dGrjCmrHP67oeggeCotaEbiuKfCfDa17aYy_QgfBg27kgng/exec"
+            )
+            .done(function (data) {
+                const sections = { main: "", sub: "", soup: "" };
+
+                data.forEach(function (item) {
+
+                    let recipeContent;
+                    if (item.レシピ && item.レシピ.startsWith("http")) {
+                        recipeContent = `<a href="${item.レシピ}" target="_blank" rel="noopener noreferrer">レシピを見る</a>`;
+                    } else {
+                        recipeContent = item.レシピ;
+                    }
+                    const html = `
+                        <div class="col mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title" data-nutrition="${item.nutrition || ''}">
+                                        ${item.献立名}
+                                    </h5>
+                                    <p class="card-text">
+                                        ${recipeContent}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    if (item.献立カテゴリ === "メイン") {
+                        sections.main += html;
+                    } else if (item.献立カテゴリ === "サブ") {
+                        sections.sub += html;
+                    } else if (item.献立カテゴリ === "スープ") {
+                        sections.soup += html;
+                    }
+                });
+
+                $("#main .row").html(sections.main);
+                $("#sub .row").html(sections.sub);
+                $("#soup .row").html(sections.soup);
+            });
         });
-
-        function renderRecipes(recipes) {
-            window.recipes = recipes; // 既存のレシピ表示に使うためグローバルに
-
-            const main = document.getElementById("main");
-            const sub = document.getElementById("sub");
-            const soup = document.getElementById("soup");
-
-            // カードを作成する関数
-            const createCard = (r) => `
-                <div class="col mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title" data-nutrition="${r.nutrition}">${r.menu}</h5>
-                      <p class="card-text">
-                        ${r.detail?.match(/^https?:\/\//) ? `<a href="${r.detail}" target="_blank">${r.detail}</a>` : r.detail}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              `;
-
-            // 各カテゴリに挿入
-            main.innerHTML = recipes.filter(r => r.dish_category === "メイン").map(createCard).join("");
-            sub.innerHTML = recipes.filter(r => r.dish_category === "サブ").map(createCard).join("");
-            soup.innerHTML = recipes.filter(r => r.dish_category === "スープ").map(createCard).join("");
+    </script>
+    <script>
+        window.difyChatbotConfig = {
+            token: 'YrZCuBxE8IcwI3dR',
         }
-    </script>      
-
+    </script>
+    <script src="https://udify.app/embed.min.js" id="YrZCuBxE8IcwI3dR" defer></script>
 </body>
 
 </html>
