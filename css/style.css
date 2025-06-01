@@ -1,0 +1,26 @@
+.addForm {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding-top: 100%;
+}
+.addForm-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+label.card {
+    cursor: pointer;
+}
+.card-text {
+    padding-left: 30px;
+}
+.card .form-check-input {
+    pointer-events: none;
+}
+.offcanvas {
+    max-width: 60%;
+}
