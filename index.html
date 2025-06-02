@@ -65,7 +65,7 @@
                 <h1 class="fw-bold mb-0">献立一覧</h1>
                 <button id="btn-selected-recipes" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-selected-recipes" disabled>
                     <i class="bi bi-check me-1"></i>
-                    <span>選択済を見る</span>
+                    <span>作るリストを見る</span>
                 </button>
             </div>
 
@@ -82,6 +82,10 @@
                     <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#soup" type="button"
                         role="tab" aria-controls="soup" aria-selected="false">スープ</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#staple" type="button"
+                        role="tab" aria-controls="staple" aria-selected="false">主食のみ</button>
+                </li>
             </ul>
 
             <div id="recipe-list" class="tab-content mt-3">
@@ -96,6 +100,10 @@
                 <!-- /.tabpane -->
 
                 <div class="tab-pane" id="soup" role="tabpanel" aria-labelledby="soup-tab" tabindex="0">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
+                </div>
+                <!-- /.tabpane -->
+                <div class="tab-pane" id="staple" role="tabpanel" aria-labelledby="staple-tab" tabindex="0">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
@@ -127,7 +135,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">選択済の献立</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">作るリスト</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -172,7 +180,7 @@
                 "https://script.google.com/macros/s/AKfycbz7pdsW5sFZDHvMFmyhZz9dGrjCmrHP67oeggeCotaEbiuKfCfDa17aYy_QgfBg27kgng/exec"
             )
             .done(function (data) {
-                const sections = { main: "", sub: "", soup: "" };
+                const sections = { main: "", sub: "", soup: "", staple: "" };
 
                 data.forEach(function (item) {
 
@@ -206,12 +214,15 @@
                         sections.sub += html;
                     } else if (item.献立のカテゴリを選択してください === "スープ") {
                         sections.soup += html;
+                    } else if (item.献立のカテゴリを選択してください === "主食のみ") {
+                        sections.staple += html;
                     }
                 });
 
                 $("#main .row").html(sections.main);
                 $("#sub .row").html(sections.sub);
                 $("#soup .row").html(sections.soup);
+                $("#staple .row").html(sections.staple);
             })
             .fail(function () {
                 console.error("読み込みエラー");
