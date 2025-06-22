@@ -8,7 +8,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+
     <script src="https://kit.fontawesome.com/f8b339594b.js" crossorigin="anonymous"></script>
+
+    <style>
+        .slot-display {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .slot-text {
+            max-width: 100%;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -45,16 +64,22 @@
 
     <div class="container">
         <main class="py-3">
-            <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center mb-4">
-                <h1 class="fw-bold mb-0 fs-2">献立一覧</h1>
-                <div class="ms-auto">
-                    <button id="btn-selected-recipes" type="button" class="btn btn-primary js-selected-recipes-button"
-                        data-bs-toggle="modal" data-bs-target="#modal-selected-recipes" disabled>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold mb-0">献立一覧</h1>
+                <div>
+                    <button id="btn-slot-machine" type="button" class="btn btn-warning me-2 js-slot-button" data-bs-toggle="modal"
+                        data-bs-target="#modal-slot-machine">
+                        <i class="fa-solid fa-shuffle me-1"></i>
+                        <span>スロットで決める</span>
+                    </button>
+                    <button id="btn-selected-recipes" type="button" class="btn btn-primary js-selected-recipes-button" data-bs-toggle="modal"
+                        data-bs-target="#modal-selected-recipes" disabled>
                         <i class="fa-solid fa-utensils me-1"></i>
                         <span>作るリストを見る</span>
                     </button>
-                    <button id="btn-clear-all-selections" type="button"
-                        class="btn btn-outline-danger">
+                    <button id="btn-clear-all-selections" type="button" class="btn btn-outline-danger btn-sm ms-2 js-clear-all-button">
+                        <i class="bi bi-x-circle me-1"></i>
                         <span>全選択解除</span>
                     </button>
                 </div>
@@ -62,39 +87,37 @@
 
             <ul class="nav nav-tabs fw-bold" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active js-tab-button" id="home-tab" data-bs-toggle="tab"
-                        data-bs-target="#main" type="button" role="tab" aria-controls="main"
-                        aria-selected="true">メイン</button>
+                    <button class="nav-link active js-tab-button" id="home-tab" data-bs-toggle="tab" data-bs-target="#main"
+                        type="button" role="tab" aria-controls="main" aria-selected="true">メイン</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link js-tab-button" id="profile-tab" data-bs-toggle="tab" data-bs-target="#sub"
-                        type="button" role="tab" aria-controls="sub" aria-selected="false">サブ</button>
+                    <button class="nav-link js-tab-button" id="profile-tab" data-bs-toggle="tab" data-bs-target="#sub" type="button"
+                        role="tab" aria-controls="sub" aria-selected="false">サブ</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link js-tab-button" id="messages-tab" data-bs-toggle="tab" data-bs-target="#soup"
-                        type="button" role="tab" aria-controls="soup" aria-selected="false">スープ</button>
+                    <button class="nav-link js-tab-button" id="messages-tab" data-bs-toggle="tab" data-bs-target="#soup" type="button"
+                        role="tab" aria-controls="soup" aria-selected="false">スープ</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link js-tab-button" id="messages-tab" data-bs-toggle="tab"
-                        data-bs-target="#staple" type="button" role="tab" aria-controls="staple"
-                        aria-selected="false">主食のみ</button>
+                    <button class="nav-link js-tab-button" id="messages-tab" data-bs-toggle="tab" data-bs-target="#staple"
+                        type="button" role="tab" aria-controls="staple" aria-selected="false">主食のみ</button>
                 </li>
             </ul>
 
             <!-- 栄養素フィルター -->
             <div class="py-3">
-                <div class="nutrition-filter-grid">
-                    <span id="filter-status" class="filter-status text-muted small"></span>
-                    <div id="nutrition-filters" class="d-flex flex-wrap gap-2">
+                <div class="d-flex flex-wrap gap-2">
+                    <span id="filter-status" class="js-filter-status text-muted small"></span>
+                    <div id="nutrition-filters" class="js-nutrition-filters d-flex flex-wrap gap-2">
                         <!-- 動的に生成されるフィルター -->
                     </div>
-                    <a href="#" id="btn-clear-filters" class="small text-decoration-none" style="display: none;">クリア</a>
+                    <span id="btn-clear-filters" class="js-clear-filters badge rounded-pill bg-outline-secondary nutrition-filter-badge"
+                        style="cursor: pointer; border: 1px solid #6c757d; color: #6c757d;">クリア</span>
                 </div>
             </div>
 
-            <div id="recipe-list" class="js-recipe-list tab-content mt-2">
-                <div class="tab-pane active js-tab-main" id="main" role="tabpanel" aria-labelledby="main-tab"
-                    tabindex="0">
+            <div id="recipe-list" class="js-recipe-list tab-content mt-3">
+                <div class="tab-pane active js-tab-main" id="main" role="tabpanel" aria-labelledby="main-tab" tabindex="0">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
@@ -108,8 +131,7 @@
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
-                <div class="tab-pane js-tab-staple" id="staple" role="tabpanel" aria-labelledby="staple-tab"
-                    tabindex="0">
+                <div class="tab-pane js-tab-staple" id="staple" role="tabpanel" aria-labelledby="staple-tab" tabindex="0">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3"></div>
                 </div>
                 <!-- /.tabpane -->
@@ -117,13 +139,6 @@
             <!-- /.tab-content -->
 
         </main>
-
-        <!-- 固定スロットマシンボタン -->
-        <div class="fixed-slot-button">
-            <button id="btn-slot-machine" type="button" class="btn btn-warning btn-lg js-slot-button">
-                <i class="fa-solid fa-shuffle"></i>
-            </button>
-        </div>
 
         <!-- ローディング -->
         <div id="loading" class="justify-content-center py-5" style="display: none;">
@@ -159,49 +174,71 @@
         </div>
     </div>
 
-    <!-- スロットマシン -->
-    <div id="slot-machine-overlay" class="slot-overlay" style="display: none;">
-        <div class="slot-machine">
-            <div class="slot-header">KONDATE SLOT</div>
-
-            <div class="slot-row">
-                <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="メイン"></div>
-                <div class="slot-window js-slot-window" data-category="main">メイン料理</div>
-                <button class="stop-button js-stop-button" data-category="main">Stop</button>
-            </div>
-
-            <div class="slot-row">
-                <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="サブ"></div>
-                <div class="slot-window js-slot-window" data-category="sub">サブ料理</div>
-                <button class="stop-button js-stop-button" data-category="sub">Stop</button>
-            </div>
-
-            <div class="slot-row">
-                <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="スープ"></div>
-                <div class="slot-window js-slot-window" data-category="soup">スープ</div>
-                <button class="stop-button js-stop-button" data-category="soup">Stop</button>
-            </div>
-
-            <div class="slot-row">
-                <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="主食"></div>
-                <div class="slot-window js-slot-window" data-category="staple">主食</div>
-                <button class="stop-button js-stop-button" data-category="staple">Stop</button>
-            </div>
-
-            <div class="reset-lever">
-                <div class="reset-label" id="reset-btn">リセット</div>
-                <div class="lever-bar"></div>
-                <div class="lever-knob"></div>
-            </div>
-
-            <button type="button" class="slot-close-btn" id="slot-close-btn">
-                <i class="fa-solid fa-times"></i>
-            </button>
-
-            <div class="slot-footer">
-                <button type="button" class="add-to-list-btn js-add-slot-to-list-btn" id="btn-add-slot-to-list" disabled>
-                    <i class="bi bi-plus-circle me-1"></i>作るリストに追加
-                </button>
+    <!-- スロットマシンモーダル -->
+    <div class="modal fade" id="modal-slot-machine" tabindex="-1" aria-labelledby="slotMachineLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="slotMachineLabel">スロットマシン</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <h6>メイン</h6>
+                                <div class="slot-display p-4 border rounded bg-light mb-3 js-slot-display" id="main-slot">
+                                    <span class="slot-text js-slot-text">メイン料理</span>
+                                </div>
+                                <button class="btn btn-danger slot-btn js-slot-btn" data-category="main" id="btn-main-slot">
+                                    <i class="bi bi-stop-fill me-1"></i>ストップ
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <h6>サブ</h6>
+                                <div class="slot-display p-4 border rounded bg-light mb-3 js-slot-display" id="sub-slot">
+                                    <span class="slot-text js-slot-text">サブ料理</span>
+                                </div>
+                                <button class="btn btn-danger slot-btn js-slot-btn" data-category="sub" id="btn-sub-slot">
+                                    <i class="bi bi-stop-fill me-1"></i>ストップ
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <h6>スープ</h6>
+                                <div class="slot-display p-4 border rounded bg-light mb-3 js-slot-display" id="soup-slot">
+                                    <span class="slot-text js-slot-text">スープ</span>
+                                </div>
+                                <button class="btn btn-danger slot-btn js-slot-btn" data-category="soup" id="btn-soup-slot">
+                                    <i class="bi bi-stop-fill me-1"></i>ストップ
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <h6>主食のみ</h6>
+                                <div class="slot-display p-4 border rounded bg-light mb-3 js-slot-display" id="staple-slot">
+                                    <span class="slot-text js-slot-text">主食</span>
+                                </div>
+                                <button class="btn btn-danger slot-btn js-slot-btn" data-category="staple" id="btn-staple-slot">
+                                    <i class="bi bi-stop-fill me-1"></i>ストップ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-success js-reset-slots-btn" id="btn-reset-slots">
+                        <i class="bi bi-arrow-clockwise me-1"></i>リセット
+                    </button>
+                    <button type="button" class="btn btn-primary js-add-slot-to-list-btn" id="btn-add-slot-to-list" disabled>
+                        <i class="bi bi-plus-circle me-1"></i>作るリストに追加
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -229,8 +266,8 @@
                     displayRecipes(data); // 初期表示
                     prepareSlotData(data); // スロットデータを準備
                 })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    console.error("読み込みエラー:", textStatus, errorThrown);
+                .fail(function () {
+                    console.error("読み込みエラー");
                 })
                 .always(function () {
                     // 読み込み完了時にスピナーを非表示
@@ -252,11 +289,11 @@
                     // 栄養素情報を表示用に整形
                     let nutritionInfo = '';
                     if (item.栄養のカテゴリを選択してください && item.栄養のカテゴリを選択してください.length > 0) {
-                        nutritionInfo = `<span class="badge rounded-pill js-nutrition-badge" data-nutrition="${item.栄養のカテゴリを選択してください}">${item.栄養のカテゴリを選択してください}</span>`;
+                        nutritionInfo = `<span class="badge rounded-pill js-nutrition-badge" data-nutrition="${item.nutrition}">${item.栄養のカテゴリを選択してください}</span>`;
                     }
 
                     const html = `
-                        <div class="col mb-2 js-recipe-item" data-nutrition="${item.栄養のカテゴリを選択してください || ''}">
+                        <div class="col mb-3 js-recipe-item" data-nutrition="${item.栄養のカテゴリを選択してください || ''}">
                             <label class="card h-100" for="${item.タイムスタンプ}">
                                 <div class="card-body">
                                     <div class="d-flex flex-column justify-content-between h-100 gap-2">
@@ -295,7 +332,7 @@
                 $("#sub .row").html(sections.sub);
                 $("#soup .row").html(sections.soup);
                 $("#staple .row").html(sections.staple);
-
+                
                 // 初期表示時にレシピ数を表示
                 updateRecipeCount();
             }
@@ -313,24 +350,27 @@
 
                 availableNutritions = Array.from(nutritionSet).sort();
 
-                // フィルターHTMLを生成
+                // フィルターHTMLを生成（バッジ形式）
                 let filtersHtml = '';
                 availableNutritions.forEach(function (nutrition, index) {
                     filtersHtml += `
-                        <span class="badge nutrition-filter-badge js-nutrition-filter" data-nutrition="${nutrition}">
+                        <span class="badge rounded-pill bg-outline-secondary js-nutrition-filter nutrition-filter-badge" 
+                              data-nutrition="${nutrition}" 
+                              style="cursor: pointer; border: 1px solid #6c757d; color: #6c757d;">
                             ${nutrition}
                         </span>
                     `;
                 });
 
-                $('#nutrition-filters').html(filtersHtml);
+                $('.js-nutrition-filters').html(filtersHtml);
 
                 // バッジクリックイベント
                 $('.js-nutrition-filter').on('click', function () {
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
+                    $(this).toggleClass('bg-primary text-white');
+                    if ($(this).hasClass('bg-primary')) {
+                        $(this).css({ 'border-color': '#0d6efd', 'color': 'white' });
                     } else {
-                        $(this).addClass('active');
+                        $(this).css({ 'border-color': '#6c757d', 'color': '#6c757d' });
                     }
                     applyNutritionFilter();
                 });
@@ -339,27 +379,20 @@
             // 栄養素フィルター機能
             function applyNutritionFilter() {
                 const selectedNutritions = [];
-                $('.js-nutrition-filter.active').each(function () {
+                $('.js-nutrition-filter.bg-primary').each(function () {
                     selectedNutritions.push($(this).data('nutrition'));
                 });
-
-                // クリアボタンの表示/非表示を制御
-                if (selectedNutritions.length > 0) {
-                    $('#btn-clear-filters').show();
-                } else {
-                    $('#btn-clear-filters').hide();
-                }
 
                 updateRecipeCount();
             }
-
+            
             // アクティブなタブのレシピ数を更新
             function updateRecipeCount() {
                 const selectedNutritions = [];
-                $('.js-nutrition-filter.active').each(function () {
+                $('.js-nutrition-filter.bg-primary').each(function () {
                     selectedNutritions.push($(this).data('nutrition'));
                 });
-
+                
                 // アクティブなタブを取得
                 const activeTab = $('.tab-pane.active');
                 let visibleCount = 0;
@@ -395,15 +428,16 @@
                     });
                 }
 
-                $('#filter-status').text(`${visibleCount}レシピ`);
+                $('.js-filter-status').text(`${visibleCount}レシピ`);
             }
 
             // フィルタークリアボタン
-            $('#btn-clear-filters').on('click', function () {
-                $('.js-nutrition-filter').removeClass('active');
+            $('.js-clear-filters').on('click', function () {
+                $('.js-nutrition-filter').removeClass('bg-primary text-white');
+                $('.js-nutrition-filter').css({ 'border-color': '#6c757d', 'color': '#6c757d' });
                 applyNutritionFilter();
             });
-
+            
             // タブ切り替え時にレシピ数を更新
             $('.js-tab-button').on('shown.bs.tab', function () {
                 updateRecipeCount();
@@ -481,48 +515,22 @@
                 categories.forEach((category, index) => {
                     const list = lists[index];
                     if (list.length > 0) {
-                        const slotWindow = $(`.js-slot-window[data-category="${category}"]`);
-                        const stopButton = $(`.js-stop-button[data-category="${category}"]`);
+                        const slotId = '#' + category + '-slot';
+                        const slotText = $(slotId + ' .js-slot-text');
 
-                        slotWindow.removeClass('slot-result');
-                        stopButton.prop('disabled', false);
-                        stopButton.text('Stop');
-
+                        $(slotId).addClass('slot-spinning');
                         slotIntervals[category] = setInterval(function () {
                             const randomItem = list[Math.floor(Math.random() * list.length)];
-                            slotWindow.text(randomItem);
+                            slotText.text(randomItem);
                         }, 100);
                     }
                 });
             }
 
-            // スロットマシンボタンクリック時の処理
-            $('.js-slot-button').on('click', function() {
+            // モーダルが開いたときにスロット開始
+            $('#modal-slot-machine').on('shown.bs.modal', function () {
                 resetSlotsToInitialState();
-                $('#slot-machine-overlay').fadeIn(300);
                 startAllSlots();
-            });
-
-            // スロットマシン閉じるボタンクリック時の処理
-            $('#slot-close-btn').on('click', function() {
-                $('#slot-machine-overlay').fadeOut(300);
-                // 全てのスロットを停止
-                Object.keys(slotIntervals).forEach(category => {
-                    clearInterval(slotIntervals[category]);
-                    delete slotIntervals[category];
-                });
-            });
-
-            // オーバーレイクリック時の処理（スロットマシン部分以外をクリックした場合）
-            $('#slot-machine-overlay').on('click', function(e) {
-                if (e.target === this) {
-                    $('#slot-machine-overlay').fadeOut(300);
-                    // 全てのスロットを停止
-                    Object.keys(slotIntervals).forEach(category => {
-                        clearInterval(slotIntervals[category]);
-                        delete slotIntervals[category];
-                    });
-                }
             });
 
             // スロットを初期状態にリセットする関数
@@ -562,14 +570,15 @@
                 });
 
                 // 初期状態に戻す
-                $('.js-slot-window[data-category="main"]').text('メイン料理');
-                $('.js-slot-window[data-category="sub"]').text('サブ料理');
-                $('.js-slot-window[data-category="soup"]').text('スープ');
-                $('.js-slot-window[data-category="staple"]').text('主食');
+                $('#main-slot .js-slot-text').text('メイン料理');
+                $('#sub-slot .js-slot-text').text('サブ料理');
+                $('#soup-slot .js-slot-text').text('スープ');
+                $('#staple-slot .js-slot-text').text('主食');
 
-                $('.js-slot-window').removeClass('slot-result');
-                $('.js-stop-button').prop('disabled', false);
-                $('.js-stop-button').text('Stop');
+                $('.js-slot-display').removeClass('slot-spinning');
+                $('.js-slot-btn').html('<i class="bi bi-stop-fill me-1"></i>ストップ');
+                $('.js-slot-btn').removeClass('btn-success').addClass('btn-danger');
+                $('.js-slot-btn').prop('disabled', false);
                 $('.js-add-slot-to-list-btn').prop('disabled', true);
 
                 // 前回の結果をクリア
@@ -582,22 +591,23 @@
                     clearInterval(slotIntervals[category]);
                     delete slotIntervals[category];
                 });
-                $('.js-slot-window').removeClass('slot-spinning');
+                $('.js-slot-display').removeClass('slot-spinning');
             });
 
             // 個別スロット停止機能
-            $('.js-stop-button').on('click', function () {
+            $('.js-slot-btn').on('click', function () {
                 const category = $(this).data('category');
                 const button = $(this);
-                const slotWindow = $(`.js-slot-window[data-category="${category}"]`);
+                const slotId = '#' + category + '-slot';
 
                 if (slotIntervals[category]) {
                     // スロット停止
                     clearInterval(slotIntervals[category]);
                     delete slotIntervals[category];
-                    slotWindow.addClass('slot-result');
+                    $(slotId).removeClass('slot-spinning');
+                    button.html('<i class="bi bi-check-fill me-1"></i>確定');
+                    button.removeClass('btn-danger').addClass('btn-success');
                     button.prop('disabled', true);
-                    button.text('確定');
 
                     // 全てのスロットが停止したか確認
                     checkAllSlotsStopped();
@@ -606,7 +616,7 @@
 
             // 全スロット停止チェック関数
             function checkAllSlotsStopped() {
-                const stoppedSlots = $('.js-stop-button:disabled').length;
+                const stoppedSlots = $('.js-slot-btn.btn-success').length;
                 if (stoppedSlots >= 4) {
                     $('.js-add-slot-to-list-btn').prop('disabled', false);
                 } else {
@@ -615,12 +625,7 @@
             }
 
             // リセットボタン
-            $('#reset-btn').on('click', function () {
-                const $resetLever = $('.reset-lever');
-                
-                // レバーアニメーション開始
-                $resetLever.addClass('pulled lever-animation');
-                
+            $('.js-reset-slots-btn').on('click', function () {
                 // 全てのスロットを停止
                 Object.keys(slotIntervals).forEach(category => {
                     clearInterval(slotIntervals[category]);
@@ -628,20 +633,39 @@
                 });
 
                 // 初期状態に戻す
-                $('.js-slot-window[data-category="main"]').text('メイン料理');
-                $('.js-slot-window[data-category="sub"]').text('サブ料理');
-                $('.js-slot-window[data-category="soup"]').text('スープ');
-                $('.js-slot-window[data-category="staple"]').text('主食');
+                $('#main-slot .js-slot-text').text('メイン料理');
+                $('#sub-slot .js-slot-text').text('サブ料理');
+                $('#soup-slot .js-slot-text').text('スープ');
+                $('#staple-slot .js-slot-text').text('主食');
 
-                $('.js-slot-window').removeClass('slot-result');
-                $('.js-stop-button').prop('disabled', false);
-                $('.js-stop-button').text('Stop');
+                $('.js-slot-display').removeClass('slot-spinning');
+                $('.slot-btn').html('<i class="bi bi-stop-fill me-1"></i>ストップ');
+                $('.slot-btn').removeClass('btn-success').addClass('btn-danger');
+                $('.slot-btn').prop('disabled', false);
+
+                // スロット再開始
+                startAllSlots();
+            });
+
+            // リセットボタン
+            $('.js-reset-slots-btn').on('click', function () {
+                // 全てのスロットを停止
+                Object.keys(slotIntervals).forEach(category => {
+                    clearInterval(slotIntervals[category]);
+                    delete slotIntervals[category];
+                });
+
+                // 初期状態に戻す
+                $('#main-slot .js-slot-text').text('メイン料理');
+                $('#sub-slot .js-slot-text').text('サブ料理');
+                $('#soup-slot .js-slot-text').text('スープ');
+                $('#staple-slot .js-slot-text').text('主食');
+
+                $('.js-slot-display').removeClass('slot-spinning');
+                $('.js-slot-btn').html('<i class="bi bi-stop-fill me-1"></i>ストップ');
+                $('.js-slot-btn').removeClass('btn-success').addClass('btn-danger');
+                $('.js-slot-btn').prop('disabled', false);
                 $('.js-add-slot-to-list-btn').prop('disabled', true);
-
-                // アニメーション終了後にクラスを削除
-                setTimeout(() => {
-                    $resetLever.removeClass('pulled lever-animation');
-                }, 500);
 
                 // スロット再開始
                 startAllSlots();
@@ -650,10 +674,10 @@
             // スロット結果を作るリストに追加
             $('.js-add-slot-to-list-btn').on('click', function () {
                 const slotResults = [
-                    $('.js-slot-window[data-category="main"]').text(),
-                    $('.js-slot-window[data-category="sub"]').text(),
-                    $('.js-slot-window[data-category="soup"]').text(),
-                    $('.js-slot-window[data-category="staple"]').text()
+                    $('#main-slot .js-slot-text').text(),
+                    $('#sub-slot .js-slot-text').text(),
+                    $('#soup-slot .js-slot-text').text(),
+                    $('#staple-slot .js-slot-text').text()
                 ];
 
                 // 今回の結果を保存
@@ -685,21 +709,23 @@
                     $(".js-selected-recipes-button").prop("disabled", false);
                 }
 
-                // スロットマシンを閉じて作るリストモーダルを開く
-                $('#slot-machine-overlay').fadeOut(300);
+                // スロットモーダルを閉じて作るリストモーダルを開く
+                $('#modal-slot-machine').modal('hide');
                 setTimeout(function () {
                     $('#modal-selected-recipes').modal('show');
-                }, 350);
+                }, 500);
             });
 
             // 全選択解除機能
-            $('#btn-clear-all-selections').on('click', function () {
-                // 全てのチェックボックスを解除
-                $('#recipe-list .js-recipe-checkbox').prop('checked', false);
-                // 作るリストをクリア
-                $('.js-selected-recipes-list').empty();
-                // ボタンを無効化
-                $('.js-selected-recipes-button').prop('disabled', true);
+            $('.js-clear-all-button').on('click', function () {
+                if (confirm('全ての選択を解除しますか？')) {
+                    // 全てのチェックボックスを解除
+                    $('#recipe-list .js-recipe-checkbox').prop('checked', false);
+                    // 作るリストをクリア
+                    $('.js-selected-recipes-list').empty();
+                    // ボタンを無効化
+                    $('.js-selected-recipes-button').prop('disabled', true);
+                }
             });
 
             // データ読み込み後にスロットデータを準備
