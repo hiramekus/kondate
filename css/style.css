@@ -35,12 +35,399 @@
 label.card {
     cursor: pointer;
 }
+.card-body {
+    padding: 10px 12px;
+}
 .card-text {
-    padding-left: 30px;
+    font-size: 13px;
+    padding-left: 24px;
 }
 .card .form-check-input {
     pointer-events: none;
 }
+.card .form-check-label {
+    font-size: 16px;
+}
+.card .recipe-nutrition {
+    padding-left: 24px;
+}
+.badge {
+    padding-right: 1em;
+    padding-left: 1em;
+    font-weight: 500;
+}
+.card .recipe-nutrition .badge[data-nutrition="vegetable"] {
+    background-color: #d1e7d8;
+    color: #146841;
+}
+.card .recipe-nutrition .badge[data-nutrition="fish"] {
+    background-color: #cff4fc;
+    color: #0d6efd;
+}
+.card .recipe-nutrition .badge[data-nutrition="meat"] {
+    background-color: #f8d7da;
+    color: #a72835;
+}
+.card .recipe-nutrition .badge[data-nutrition="egg"] {
+    background-color: #fff3cd;
+    color: #8b6800;
+}
+.card .recipe-nutrition .badge[data-nutrition="other"] {
+    background-color: #e2e3e5;
+    color: #212529;
+}
 .offcanvas {
     max-width: 60%;
+}
+.filter-status {
+}
+
+.nutrition-filter-badge {
+    cursor: pointer;
+    border-radius: 100vh;
+    border: 1px solid #0d6efd;
+    background-color: #fff;
+    color: #0d6efd;
+    padding: 4px 12px;
+}
+
+.nutrition-filter-badge.active {
+    background-color: #0d6efd;
+    color: #fff;
+}
+.nutrition-filter-badge.active::before {
+    content: '×';
+    display: inline-block;
+    margin-right: 4px;
+}
+
+/* スロットマシンスタイル */
+.slot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.slot-machine {
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(#d40000, #800000);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  padding: 1rem;
+  position: relative;
+  color: white;
+  margin: 0 auto;
+}
+
+.slot-close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-close-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.1);
+}
+
+.slot-footer {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.slot-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.6rem;
+  background: linear-gradient(to bottom, #ffd700, #ff9900);
+  color: #7a0000;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);
+  margin-bottom: 1rem;
+}
+
+.slot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin: 0.5rem 0;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+.slot-icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.slot-window {
+  flex: 1;
+  margin: 0 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: white;
+  border-radius: 8px;
+  padding: 0.3rem 0.5rem;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  color: #333;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stop-button {
+  background: linear-gradient(to bottom, #ffcc00, #cc9900);
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #4a3000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stop-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.stop-button:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.reset-lever {
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.reset-label {
+  writing-mode: vertical-rl;
+  background: linear-gradient(to bottom, #333, #000);
+  color: white;
+  padding: 0.8rem 0.5rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  border: 2px solid #555;
+}
+
+.reset-label:hover {
+  background: linear-gradient(to bottom, #555, #333);
+  transform: scale(1.05);
+}
+
+.lever-bar {
+  width: 12px;
+  height: 60px;
+  background: linear-gradient(to bottom, #ddd, #aaa);
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  border: 1px solid #999;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.lever-knob {
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(45deg, #ff4444, #cc0000);
+  border-radius: 50%;
+  margin-top: 8px;
+  box-shadow: 
+    inset -2px -2px 5px rgba(0,0,0,0.3),
+    0 2px 4px rgba(0,0,0,0.4);
+  border: 2px solid #aa0000;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.lever-knob::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(45deg, #ff6666, #ff4444);
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3);
+}
+
+/* レバーアニメーション */
+.reset-lever.pulled .lever-bar {
+  transform: translateY(10px);
+  background: linear-gradient(to bottom, #bbb, #888);
+}
+
+.reset-lever.pulled .lever-knob {
+  transform: translateY(10px);
+  background: linear-gradient(45deg, #cc0000, #aa0000);
+}
+
+.reset-lever.pulled .reset-label {
+  background: linear-gradient(to bottom, #555, #222);
+  transform: scale(0.95);
+}
+
+/* レバーを引くアニメーション */
+@keyframes leverPull {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+  100% { transform: translateY(0); }
+}
+
+.lever-animation {
+  animation: leverPull 0.5s ease-in-out;
+}
+
+.slot-result {
+  background: linear-gradient(to bottom, #90EE90, #32CD32) !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.add-to-list-btn {
+  background: linear-gradient(to bottom, #4CAF50, #45a049);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.add-to-list-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
+
+.add-to-list-btn:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 固定スロットマシンボタン */
+.fixed-slot-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.fixed-slot-button .btn {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 50px;
+  padding: 12px 24px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.fixed-slot-button .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 栄養素フィルターのレスポンシブ対応 */
+.nutrition-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* PC表示（md以上） */
+@media (min-width: 768px) {
+  .nutrition-filter-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .nutrition-filter-container > div:first-child {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* 栄養素フィルターのレスポンシブ対応 */
+.nutrition-filter-grid {
+  display: grid;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* スマホ表示（md未満） */
+.nutrition-filter-grid {
+  grid-template-areas: 
+    "status clear"
+    "filters filters";
+}
+
+.nutrition-filter-grid #filter-status {
+  grid-area: status;
+  justify-self: start;
+}
+
+.nutrition-filter-grid #nutrition-filters {
+  grid-area: filters;
+  justify-self: start;
+}
+
+.nutrition-filter-grid #btn-clear-filters {
+  grid-area: clear;
+  justify-self: end;
+}
+
+/* PC表示（md以上） */
+@media (min-width: 768px) {
+  .nutrition-filter-grid {
+    grid-template-areas: "status filters clear";
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+  }
 }
