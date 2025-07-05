@@ -109,6 +109,7 @@ label.card {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+  padding: 8px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,7 +125,6 @@ label.card {
   padding: 1rem;
   position: relative;
   color: white;
-  margin: 0 auto;
 }
 
 .slot-close-btn {
@@ -202,15 +202,34 @@ label.card {
 }
 
 .stop-button {
-  background: linear-gradient(to bottom, #ffcc00, #cc9900);
-  border: none;
+  background: -moz-radial-gradient(50% 80%, circle, #eeeeee, #5e5e5e);
+  background: -webkit-radial-gradient(50% 80%, circle, #eeeeee, #5e5e5e);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   padding: 0.4rem 0.7rem;
-  border-radius: 50%;
+  border-radius: 100vh;
+  width: 50px;
+  height: 50px;
   font-weight: bold;
-  color: #4a3000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5),
+              0 2px 10px rgba(0, 100, 255, 0.7),
+              inset 0 0 10px rgba(0, 0, 150, 0.6);
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-reflect: below -90px -webkit-gradient(linear, right top, left top, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0)));
+}
+
+.stop-button::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  filter: blur(2px);
 }
 
 .stop-button:hover {
@@ -219,106 +238,90 @@ label.card {
 }
 
 .stop-button:disabled {
-  background: #ccc;
-  color: #666;
+  background: radial-gradient(circle at 30% 30%, #ffcc00, #cc9900);
+  border: 3px solid #aa8800;
+  color: #4a3000;
   cursor: not-allowed;
   transform: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.reset-lever {
+/* スロットレバーのスタイル */
+.slot-lever-container {
   position: absolute;
-  right: -40px;
+  right: -50px;
   top: 50%;
   transform: translateY(-50%);
+  width: 80px;
+  height: 200px;
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* ▼ レバー全体（赤丸とシャフトをまとめる） */
+.slot-lever-group {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
   cursor: pointer;
 }
 
-.reset-label {
-  writing-mode: vertical-rl;
-  background: linear-gradient(to bottom, #333, #000);
-  color: white;
-  padding: 0.8rem 0.5rem;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  border: 2px solid #555;
-}
-
-.reset-label:hover {
-  background: linear-gradient(to bottom, #555, #333);
-  transform: scale(1.05);
-}
-
-.lever-bar {
-  width: 12px;
-  height: 60px;
-  background: linear-gradient(to bottom, #ddd, #aaa);
-  border-radius: 6px;
-  margin-top: 0.5rem;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-  border: 1px solid #999;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.lever-knob {
-  width: 25px;
-  height: 25px;
-  background: linear-gradient(45deg, #ff4444, #cc0000);
+.slot-lever-handle {
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at 30% 30%, #ff0000, #800000);
+  border: 3px solid #aa0000;
   border-radius: 50%;
-  margin-top: 8px;
-  box-shadow: 
-    inset -2px -2px 5px rgba(0,0,0,0.3),
-    0 2px 4px rgba(0,0,0,0.4);
-  border: 2px solid #aa0000;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   position: relative;
 }
 
-.lever-knob::before {
+/* ハンドルの光沢効果 */
+.slot-lever-handle::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(45deg, #ff6666, #ff4444);
+  top: 10px;
+  left: 10px;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
-  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3);
+  filter: blur(2px);
 }
 
-/* レバーアニメーション */
-.reset-lever.pulled .lever-bar {
-  transform: translateY(10px);
-  background: linear-gradient(to bottom, #bbb, #888);
+.slot-lever-shaft {
+  margin: 0 auto;
+  width: 8px;
+  height: 160px;
+  background: linear-gradient(to bottom, #888, #444);
+  border-radius: 4px;
 }
 
-.reset-lever.pulled .lever-knob {
-  transform: translateY(10px);
-  background: linear-gradient(45deg, #cc0000, #aa0000);
+/* ▼ アニメーション用クラス */
+.slot-lever-group.active {
+  animation: pull-and-return 0.8s ease-in-out;
 }
 
-.reset-lever.pulled .reset-label {
-  background: linear-gradient(to bottom, #555, #222);
-  transform: scale(0.95);
-}
-
-/* レバーを引くアニメーション */
-@keyframes leverPull {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(10px); }
-  100% { transform: translateY(0); }
-}
-
-.lever-animation {
-  animation: leverPull 0.5s ease-in-out;
+@keyframes pull-and-return {
+  0% {
+      top: 0;
+      transform: translateX(-50%);
+  }
+  50% {
+      top: 130px;
+      transform: translateX(-50%);
+  }
+  100% {
+      top: 0;
+      transform: translateX(-50%);
+  }
 }
 
 .slot-result {
