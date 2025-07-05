@@ -167,31 +167,32 @@
             <div class="slot-row">
                 <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="メイン"></div>
                 <div class="slot-window js-slot-window" data-category="main">メイン料理</div>
-                <button class="stop-button js-stop-button" data-category="main">Stop</button>
+                <button class="stop-button js-stop-button" data-category="main"><div class="glare"></div></button>
             </div>
 
             <div class="slot-row">
                 <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="サブ"></div>
                 <div class="slot-window js-slot-window" data-category="sub">サブ料理</div>
-                <button class="stop-button js-stop-button" data-category="sub">Stop</button>
+                <button class="stop-button js-stop-button" data-category="sub"></button>
             </div>
 
             <div class="slot-row">
                 <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="スープ"></div>
                 <div class="slot-window js-slot-window" data-category="soup">スープ</div>
-                <button class="stop-button js-stop-button" data-category="soup">Stop</button>
+                <button class="stop-button js-stop-button" data-category="soup"></button>
             </div>
 
             <div class="slot-row">
                 <div class="slot-icon"><img src="https://placehold.jp/50x50.png" alt="主食"></div>
                 <div class="slot-window js-slot-window" data-category="staple">主食</div>
-                <button class="stop-button js-stop-button" data-category="staple">Stop</button>
+                <button class="stop-button js-stop-button" data-category="staple"></button>
             </div>
 
-            <div class="reset-lever">
-                <div class="reset-label" id="reset-btn">リセット</div>
-                <div class="lever-bar"></div>
-                <div class="lever-knob"></div>
+            <div class="slot-lever-container">
+                <div class="slot-lever-group" id="reset-btn">
+                    <div class="slot-lever-handle"></div>
+                    <div class="slot-lever-shaft"></div>
+                </div>
             </div>
 
             <button type="button" class="slot-close-btn" id="slot-close-btn">
@@ -252,11 +253,11 @@
                     // 栄養素情報を表示用に整形
                     let nutritionInfo = '';
                     if (item.栄養のカテゴリを選択してください && item.栄養のカテゴリを選択してください.length > 0) {
-                        nutritionInfo = `<span class="badge rounded-pill js-nutrition-badge" data-nutrition="${item.栄養のカテゴリを選択してください}">${item.栄養のカテゴリを選択してください}</span>`;
+                        nutritionInfo = `<span class="badge rounded-pill js-nutrition-badge" data-nutrition="${item.nutrition}">${item.栄養のカテゴリを選択してください}</span>`;
                     }
 
                     const html = `
-                        <div class="col mb-2 js-recipe-item" data-nutrition="${item.栄養のカテゴリを選択してください || ''}">
+                        <div class="col mb-3 js-recipe-item" data-nutrition="${item.nutrition || ''}">
                             <label class="card h-100" for="${item.タイムスタンプ}">
                                 <div class="card-body">
                                     <div class="d-flex flex-column justify-content-between h-100 gap-2">
@@ -306,8 +307,8 @@
 
                 // データから栄養素を抽出
                 data.forEach(function (item) {
-                    if (item.栄養のカテゴリを選択してください && item.栄養のカテゴリを選択してください.trim() !== '') {
-                        nutritionSet.add(item.栄養のカテゴリを選択してください.trim());
+                    if (item.nutrition && item.nutrition.trim() !== '') {
+                        nutritionSet.add(item.nutrition.trim());
                     }
                 });
 
@@ -316,9 +317,19 @@
                 // フィルターHTMLを生成
                 let filtersHtml = '';
                 availableNutritions.forEach(function (nutrition, index) {
+                    // 対応する日本語名を探す
+                    let displayName = nutrition;
+                    data.some(function(item) {
+                        if (item.nutrition === nutrition) {
+                            displayName = item.栄養のカテゴリを選択してください;
+                            return true;
+                        }
+                        return false;
+                    });
+                    
                     filtersHtml += `
                         <span class="badge nutrition-filter-badge js-nutrition-filter" data-nutrition="${nutrition}">
-                            ${nutrition}
+                            ${displayName}
                         </span>
                     `;
                 });
@@ -486,7 +497,6 @@
 
                         slotWindow.removeClass('slot-result');
                         stopButton.prop('disabled', false);
-                        stopButton.text('Stop');
 
                         slotIntervals[category] = setInterval(function () {
                             const randomItem = list[Math.floor(Math.random() * list.length)];
@@ -569,7 +579,6 @@
 
                 $('.js-slot-window').removeClass('slot-result');
                 $('.js-stop-button').prop('disabled', false);
-                $('.js-stop-button').text('Stop');
                 $('.js-add-slot-to-list-btn').prop('disabled', true);
 
                 // 前回の結果をクリア
@@ -597,7 +606,6 @@
                     delete slotIntervals[category];
                     slotWindow.addClass('slot-result');
                     button.prop('disabled', true);
-                    button.text('確定');
 
                     // 全てのスロットが停止したか確認
                     checkAllSlotsStopped();
@@ -616,10 +624,11 @@
 
             // リセットボタン
             $('#reset-btn').on('click', function () {
-                const $resetLever = $('.reset-lever');
-                
-                // レバーアニメーション開始
-                $resetLever.addClass('pulled lever-animation');
+                const $group = $(this);
+                // アニメーションクラスをリセットしてから再適用（連続クリック対応）
+                $group.removeClass('active');
+                void $group[0].offsetWidth;
+                $group.addClass('active');
                 
                 // 全てのスロットを停止
                 Object.keys(slotIntervals).forEach(category => {
@@ -635,16 +644,12 @@
 
                 $('.js-slot-window').removeClass('slot-result');
                 $('.js-stop-button').prop('disabled', false);
-                $('.js-stop-button').text('Stop');
                 $('.js-add-slot-to-list-btn').prop('disabled', true);
 
-                // アニメーション終了後にクラスを削除
-                setTimeout(() => {
-                    $resetLever.removeClass('pulled lever-animation');
-                }, 500);
-
                 // スロット再開始
-                startAllSlots();
+                setTimeout(() => {
+                    startAllSlots();
+                }, 400);
             });
 
             // スロット結果を作るリストに追加

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>スロットレバー</title>
+    <style>
+        .slot-lever-container {
+            position: relative;
+            width: 100px;
+            height: 250px;
+            background: #222;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 30px;
+            overflow: hidden;
+        }
+
+        /* ▼ レバー全体（赤丸とシャフトをまとめる） */
+        .slot-lever-group {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .slot-lever-handle {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #ff0000, #800000);
+            border: 3px solid #aa0000;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .slot-lever-shaft {
+            margin: 0 auto;
+            width: 8px;
+            height: 160px;
+            background: linear-gradient(to bottom, #888, #444);
+            border-radius: 4px;
+        }
+
+        /* ▼ アニメーション用クラス */
+        .slot-lever-group.active {
+            animation: pull-and-return 0.8s ease-in-out;
+        }
+
+        @keyframes pull-and-return {
+            0% {
+                top: 0;
+                transform: translateX(-50%);
+            }
+            50% {
+                top: 230px;
+                transform: translateX(-50%);
+            }
+            100% {
+                top: 0;
+                transform: translateX(-50%);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="slot-lever-container">
+    <div class="slot-lever-group">
+        <div class="slot-lever-handle"></div>
+        <div class="slot-lever-shaft"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        $('.slot-lever-group').on('click', function () {
+            const $group = $(this);
+            $group.removeClass('active');
+            void $group[0].offsetWidth;
+            $group.addClass('active');
+        });
+    });
+</script>
+
+</body>
+</html>
